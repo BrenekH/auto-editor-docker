@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-auto-editor "$@"
+auto-editor --player /bin/true "$@"
