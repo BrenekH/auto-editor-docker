@@ -18,7 +18,7 @@ fn main() -> ExitCode {
     let args: Vec<String> = env::args().collect();
 
     if args.len() != 1 {
-        return (run_auto_editor(&args).expect("auto-editor process failed to execute") as u8)
+        return (run_auto_editor(&args[1..]).expect("auto-editor process failed to execute") as u8)
             .into();
     }
 
