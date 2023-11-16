@@ -51,16 +51,16 @@ fn main() -> ExitCode {
                     thread::spawn(move || {
                         let path = Path::new(&path_buf);
 
+                        let input_file = path_buf.to_str().unwrap().into();
+                        let output_file = out_dir
+                            .join(path.file_name().unwrap())
+                            .to_str()
+                            .unwrap()
+                            .into();
+
+                        println!("Starting to process {input_file} -> {output_file}");
                         let proc_result = run_auto_editor(
-                            &(vec![
-                                path_buf.to_str().unwrap().into(),
-                                "--output-file".into(),
-                                out_dir
-                                    .join(path.file_name().unwrap())
-                                    .to_str()
-                                    .unwrap()
-                                    .into(),
-                            ]),
+                            &(vec![input_file, "--output-file".into(), output_file]),
                         );
 
                         match proc_result {
@@ -70,7 +70,7 @@ fn main() -> ExitCode {
                                         println!("{e}")
                                     }
                                 }
-                            },
+                            }
                             Err(e) => println!("{e}"),
                         }
                     });
@@ -90,6 +90,7 @@ fn main() -> ExitCode {
         }
     };
 
+    println!("Waiting for files in {}", watch_dir.to_str().unwrap());
     match watcher.watch(&watch_dir, RecursiveMode::Recursive) {
         Err(e) => {
             println!("{e}");
