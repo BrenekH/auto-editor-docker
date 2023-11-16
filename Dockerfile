@@ -10,6 +10,9 @@ RUN cargo build --release
 
 FROM python:3.12-slim-bookworm
 
+ENV AUTO_EDITOR_WATCH_DIR=/watch
+ENV AUTO_EDITOR_OUTPUT_DIR=/output
+
 COPY install-packages.sh .
 RUN ./install-packages.sh
 
